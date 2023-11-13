@@ -3,6 +3,7 @@ package es.oesia.springtesting1;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.List;
 
@@ -29,10 +30,11 @@ class SpringPersonaServiceTest {
 
 	void getPersonasTest() {
 		
-		//when(repoPersonaMock.getPersonas()).thenReturn(List.of(new Persona("ana"),new Persona("juan")));
-		
-		
+		when(repoPersonaMock.getPersonas()).thenReturn(List.of(new Persona("ana"),new Persona("juan")));
 		List<Persona> lista= repoPersonaService.getPersonas();
+		assertEquals(lista.get(0).getNombre(),"ana");
+		assertEquals(lista.get(1).getNombre(),"juan");
+		
 		assertEquals(2,lista.size());
 	}
 	
