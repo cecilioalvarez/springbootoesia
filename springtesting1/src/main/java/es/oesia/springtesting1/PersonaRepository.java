@@ -7,20 +7,22 @@ import org.springframework.stereotype.Component;
 @Component
 public class PersonaRepository {
 
-	private static List<Persona> personas= new ArrayList<>();
+	private  List<Persona> personas= new ArrayList<>();
 	
-	static {
-		
-		
+	public PersonaRepository() {
+		super();
 		personas.add(new Persona ("pepe","perez",20));
 		personas.add(new Persona ("juan","gomez",30));
-		
-		
 	}
 	
 	public List<Persona> getPersonas() {
 		
 		return personas;
+	}
+	
+	public void add(Persona persona) {
+		
+		personas.add(persona);
 	}
 	
 	
