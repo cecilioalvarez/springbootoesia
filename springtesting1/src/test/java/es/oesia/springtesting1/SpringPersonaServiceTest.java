@@ -14,26 +14,26 @@ import org.springframework.test.annotation.DirtiesContext.ClassMode;
 
 @SpringBootTest
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
-class SpringPersonaRepositoryTest {
+class SpringPersonaServiceTest {
 
 	
 	@Autowired
-	PersonaRepository repoPersona;
+	PersonaService repoPersonaService;
 	
 	
 	@Test
 
 	void getPersonasTest() {
 		
-		List<Persona> lista=repoPersona.getPersonas();
+		List<Persona> lista=repoPersonaService.getPersonas();
 		assertEquals(2,lista.size());
 	}
 	
 	@Test
 	void addPersonaTest() {
 		
-		repoPersona.add(new Persona("ana","perez",40));
-		List<Persona> lista=repoPersona.getPersonas();
+		repoPersonaService.add(new Persona("ana","perez",40));
+		List<Persona> lista=repoPersonaService.getPersonas();
 		assertTrue(lista.contains(new Persona("ana")));
 	}
 	
@@ -41,8 +41,8 @@ class SpringPersonaRepositoryTest {
 	void removePersonaTest() {
 		
 		
-		repoPersona.remove(new Persona("pepe"));
-		List<Persona> lista2=repoPersona.getPersonas();
+		repoPersonaService.remove(new Persona("pepe"));
+		List<Persona> lista2=repoPersonaService.getPersonas();
 		assertFalse(lista2.contains(new Persona("ana")));
 	}
 
