@@ -4,7 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import java.util.List;
 
@@ -42,15 +42,9 @@ class SpringPersonaServiceTest {
 	@Test
 	void addPersonaTest() {
 
-		// persona service add
-		// porque es un metodo delegado
-		// al ser un metodo delegado no hace nada
-		// entonces verificar aqui que hemos añadido una persona
-		// con las listas no tiene sentido
-		// porque eso lo hace el repo
-
-		personaService.add(new Persona("ana", "perez", 40));
-		Mockito.verify(repoPersonaMock).add(new Persona("ana", "perez", 40));
+		var ana=new Persona("ana", "perez", 40);
+		personaService.add(ana);
+		verify(repoPersonaMock).add(ana);
 	}
 
 	@Test
