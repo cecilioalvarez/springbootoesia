@@ -25,5 +25,9 @@ public class PersonaRepository {
 		personas.add(persona);
 	}
 	
+	public void remove(Persona persona) {
+		
+		personas.remove(persona);
+	}
 	
 }

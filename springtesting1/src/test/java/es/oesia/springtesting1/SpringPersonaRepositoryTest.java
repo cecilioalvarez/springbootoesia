@@ -12,7 +12,7 @@ import org.springframework.test.annotation.DirtiesContext.ClassMode;
 
 @SpringBootTest
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
-class SpringRepositoryTest {
+class SpringPersonaRepositoryTest {
 
 	
 	@Autowired
@@ -34,5 +34,15 @@ class SpringRepositoryTest {
 		List<Persona> lista=repoPersona.getPersonas();
 		assertEquals(3,lista.size());
 	}
+	
+	@Test
+	void removePersonaTest() {
+		
+		List<Persona> lista=repoPersona.getPersonas();
+		repoPersona.remove(new Persona("pepe"));
+		List<Persona> lista2=repoPersona.getPersonas();
+		assertEquals(1,lista2.size());
+	}
+
 
 }
