@@ -1,8 +1,9 @@
 package es.oesia.springtesting1;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.mockito.Mockito.verify;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -14,14 +15,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
-
 @SpringBootTest
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 class SpringPersonaServiceTest {
 
 	
 	@Autowired
-	PersonaService repoPersonaService;
+	PersonaService personaService;
 	@MockBean
 	PersonaRepository repoPersonaMock;
 	
@@ -30,12 +30,15 @@ class SpringPersonaServiceTest {
 
 	void getPersonasTest() {
 		
-		when(repoPersonaMock.getPersonas()).thenReturn(List.of(new Persona("ana"),new Persona("juan")));
-		List<Persona> lista= repoPersonaService.getPersonas();
-		assertEquals(lista.get(0).getNombre(),"ana");
-		assertEquals(lista.get(1).getNombre(),"juan");
+		var ana= new Persona("ana");
+		var  juan= new Persona("juan");
+		when(repoPersonaMock.getPersonas()).thenReturn(List.of(ana,juan));
 		
-		assertEquals(2,lista.size());
+		var  lista= personaService.getPersonas();
+		//pero si has recomendado hamcrest
+		
+		assertThat(lista, hasItems(ana,juan));
+	
 	}
 	
 	@Test
@@ -48,7 +51,7 @@ class SpringPersonaServiceTest {
 		// con las listas no tiene sentido
 		//porque eso lo hace el repo
 		
-		repoPersonaService.add(new Persona("ana","perez",40));
+		personaService.add(new Persona("ana","perez",40));
 	    Mockito.verify(repoPersonaMock).add(new Persona("ana","perez",40));
 	}
 	
@@ -56,8 +59,8 @@ class SpringPersonaServiceTest {
 	void removePersonaTest() {
 		
 		
-		repoPersonaService.remove(new Persona("pepe"));
-		List<Persona> lista2=repoPersonaService.getPersonas();
+		personaService.remove(new Persona("pepe"));
+		List<Persona> lista2=personaService.getPersonas();
 		assertFalse(lista2.contains(new Persona("ana")));
 	}
 
