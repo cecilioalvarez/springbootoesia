@@ -2,6 +2,7 @@ package es.oesia.springtesting1.basico.jpa;
 
 
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -29,6 +30,18 @@ public class PersonaRepositorySpringJPATest {
 		
 		
 	}
+	
+	@Test
+	@DisplayName("buscar una persona por nombre")
+	public void buscarPorNombre() {
+		
+		var personaPedro= repoPersona.buscarUno("pedro");
+		assertEquals(personaPedro.getNombre(),"pedro");
+		
+		
+	}
+	
+	
 	@Test
 	@DisplayName("borrar una persona")
 	public void borrar() {
@@ -50,6 +63,21 @@ public class PersonaRepositorySpringJPATest {
 		var listaPersonas= repoPersona.buscarTodos();
 		
 		assertThat (listaPersonas,hasItems(marta));
+		
+		
+	}
+	
+	@Test
+	@DisplayName("actualizar una persona")
+	public void actualizar() {
+		var ana= new Persona("ana","blanco",50);
+		repoPersona.actualizar(ana);
+		var personaActualizada= repoPersona.buscarUno(ana.getNombre());
+		
+		assertEquals(personaActualizada.getNombre(),"ana");
+		assertEquals(personaActualizada.getApellidos(),"blanco");
+		assertEquals(personaActualizada.getEdad(),50);
+		
 		
 		
 	}
