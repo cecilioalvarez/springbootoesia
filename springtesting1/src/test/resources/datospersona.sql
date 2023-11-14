@@ -1,0 +1,1 @@
+insert into Personas values ("pedro","perez",20); 

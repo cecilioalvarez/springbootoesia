@@ -2,7 +2,12 @@ package es.oesia.springtesting1;
 
 import java.util.Objects;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
 public class Persona {
+	@Id
 	private String nombre;
 	private String apellidos;
 	private int edad;
