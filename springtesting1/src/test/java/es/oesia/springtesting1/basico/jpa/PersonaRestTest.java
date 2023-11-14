@@ -2,9 +2,9 @@ package es.oesia.springtesting1.basico.jpa;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -22,7 +22,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import es.oesia.springtesting1.Persona;
-import es.oesia.springtesting1.PersonaService;
+import es.oesia.springtesting1.PersonaServiceData;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -38,7 +38,7 @@ public class PersonaRestTest {
 	private ObjectMapper mapeador;
 	
 	@MockBean
-	private PersonaService servicioPersona;
+	private PersonaServiceData servicioPersona;
 	
 	
 	@Test
@@ -53,12 +53,27 @@ public class PersonaRestTest {
 	public void buscarTodasLasPersonas() throws Exception {
 		
 		Persona pedro= new Persona("pedro","gomez",20);
-		when(servicioPersona.getPersonas()).thenReturn(List.of(pedro));
+		when(servicioPersona.buscarTodos()).thenReturn(List.of(pedro));
 		mockMvc
 		.perform(get("/personas"))
 		.andExpect(status().isOk())
 		.andExpect(content()
 				.json("[{nombre:'pedro',apellidos:'gomez',edad:20}]"));
+	
+	}
+	
+	
+	@Test
+	@DisplayName("buscar una persona")
+	public void buscarUnaPersona() throws Exception {
+		
+	
+		when(servicioPersona.buscarUno("pedro")).thenReturn(new Persona("pedro","gomez",20));
+		mockMvc
+		.perform(get("/personas/pedro"))
+		.andExpect(status().isOk());
+		//.andExpect(content()
+		//		.json("{nombre:'pedro',apellidos:'gomez',edad:20}"));
 	
 	}
 	
@@ -87,7 +102,7 @@ public class PersonaRestTest {
 		.perform(delete("/personas/"+nombre))
 		.andExpect(status().isOk());
 		
-		verify(servicioPersona).remove(new Persona(nombre));
+		verify(servicioPersona).borrar(new Persona(nombre));
 			
 				
 	}

@@ -11,6 +11,8 @@ public class PersonaService {
 	@Autowired
 	private PersonaRepository repo;
 
+	
+	
 	public List<Persona> getPersonas() {
 		return repo.getPersonas();
 	}

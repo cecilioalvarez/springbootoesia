@@ -14,24 +14,29 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/personas")
 public class PersonaREST {
 	
-	public PersonaREST(PersonaService servicio) {
+	public PersonaREST(PersonaServiceData servicio) {
 		super();
 		this.servicio = servicio;
 	}
 
-	private PersonaService servicio;
+	private PersonaServiceData servicio;
 
 	@GetMapping
 	public List<Persona> getPersonas() {
-		return servicio.getPersonas();
+		return servicio.buscarTodos();
+	}
+	
+	@GetMapping("{nombre}")
+	public Persona getPersona(@PathVariable String nombre) {
+		return servicio.buscarUno(nombre);
 	}
 	@PostMapping
 	public void add(@RequestBody Persona persona) {
-		servicio.add(persona);
+		servicio.insertar(persona);
 	}
 	@DeleteMapping("{nombre}")
 	public void remove(@PathVariable String nombre) {
-		servicio.remove(new Persona(nombre));
+		servicio.borrar(new Persona(nombre));
 	}
 	
 	

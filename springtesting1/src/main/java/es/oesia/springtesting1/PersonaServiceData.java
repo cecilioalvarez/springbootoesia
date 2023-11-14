@@ -28,6 +28,10 @@ public class PersonaServiceData {
 	public void actualizar(Persona persona) {
 		repoPersona.actualizar(persona);
 	}
+
+	public void borrar(Persona persona) {
+		repoPersona.borrar(persona);
+	}
 	
 	
 }
