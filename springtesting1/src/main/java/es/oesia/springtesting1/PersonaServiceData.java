@@ -16,6 +16,18 @@ public class PersonaServiceData {
 	public List<Persona> buscarTodos() {
 		return repoPersona.buscarTodos();
 	}
+
+	public Persona buscarUno(String nombre) {
+		return repoPersona.buscarUno(nombre);
+	}
+
+	public void insertar(Persona persona) {
+		repoPersona.insertar(persona);
+	}
+
+	public void actualizar(Persona persona) {
+		repoPersona.actualizar(persona);
+	}
 	
 	
 }
