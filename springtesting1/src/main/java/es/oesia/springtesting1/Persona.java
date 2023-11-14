@@ -4,9 +4,17 @@ import java.util.Objects;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
+@Table (name="personas")
 public class Persona {
+	
+	
+	public Persona() {
+		super();
+	}
+
 	@Id
 	private String nombre;
 	private String apellidos;
