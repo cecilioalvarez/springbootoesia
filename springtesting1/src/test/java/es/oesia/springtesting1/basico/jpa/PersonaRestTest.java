@@ -1,8 +1,10 @@
 package es.oesia.springtesting1.basico.jpa;
 
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -34,6 +36,7 @@ public class PersonaRestTest {
 	
 	@Autowired
 	private ObjectMapper mapeador;
+	
 	@MockBean
 	private PersonaService servicioPersona;
 	
@@ -71,6 +74,20 @@ public class PersonaRestTest {
 		.contentType("application/json")
 		.content(textoPersona))
 		.andExpect(status().isOk());
+			
+				
+	}
+	
+	
+	@Test
+	@DisplayName("borrar Persona via REST")
+	public void borrarPersona() throws Exception {
+		String nombre="gema";
+		mockMvc
+		.perform(delete("/personas/"+nombre))
+		.andExpect(status().isOk());
+		
+		verify(servicioPersona).remove(new Persona(nombre));
 			
 				
 	}
