@@ -41,4 +41,16 @@ public class PersonaRepositorySpringJPATest {
 		
 		
 	}
+	
+	@Test
+	@DisplayName("insertar una persona")
+	public void insertar() {
+		var marta= new Persona("marta","gomez",40);
+		repoPersona.insertar(marta);
+		var listaPersonas= repoPersona.buscarTodos();
+		
+		assertThat (listaPersonas,hasItems(marta));
+		
+		
+	}
 }

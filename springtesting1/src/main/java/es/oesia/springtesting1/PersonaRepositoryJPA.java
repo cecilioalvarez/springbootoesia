@@ -24,4 +24,10 @@ public class PersonaRepositoryJPA {
 		
 		em.remove(em.merge(persona));
 	}
+	
+	@Transactional
+	public void insertar(Persona persona) {
+		
+		em.persist(persona);
+	}
 }
