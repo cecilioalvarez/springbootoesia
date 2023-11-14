@@ -3,6 +3,8 @@ package es.oesia.springtesting1;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,8 +23,8 @@ public class PersonaREST {
 	public List<Persona> getPersonas() {
 		return servicio.getPersonas();
 	}
-
-	public void add(Persona persona) {
+	@PostMapping
+	public void add(@RequestBody Persona persona) {
 		servicio.add(persona);
 	}
 

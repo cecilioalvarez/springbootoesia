@@ -1,16 +1,26 @@
 package es.oesia.springtesting1.basico.jpa;
 
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.List;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import es.oesia.springtesting1.Persona;
+import es.oesia.springtesting1.PersonaService;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -21,6 +31,12 @@ public class PersonaRestTest {
 	
 	@Autowired
 	private MockMvc mockMvc;
+	
+	@Autowired
+	private ObjectMapper mapeador;
+	@MockBean
+	private PersonaService servicioPersona;
+	
 	
 	@Test
 	public void holaTest() throws Exception {
@@ -33,17 +49,34 @@ public class PersonaRestTest {
 	@DisplayName("buscar todas las personas via REST")
 	public void buscarTodasLasPersonas() throws Exception {
 		
+		Persona pedro= new Persona("pedro","gomez",20);
+		when(servicioPersona.getPersonas()).thenReturn(List.of(pedro));
 		mockMvc
 		.perform(get("/personas"))
 		.andExpect(status().isOk())
 		.andExpect(content()
-				.json("[{nombre:'pepe',apellidos:'perez',edad:20},{nombre:'juan',apellidos:'gomez',edad:30}]"));
-		
-				
-			
-
-		
+				.json("[{nombre:'pedro',apellidos:'gomez',edad:20}]"));
+	
 	}
+	
+	@Test
+	@DisplayName("insertar Persona via REST")
+	public void insertarPersona() throws Exception {
+		
+		Persona persona= new Persona("gema","blanco",40);
+		String textoPersona= mapeador.writeValueAsString(persona);
+		
+		mockMvc
+		.perform(post("/personas")
+		.contentType("application/json")
+		.content(textoPersona))
+		.andExpect(status().isOk());
+			
+				
+	}
+	
+	
+	
 	
 	
 	
